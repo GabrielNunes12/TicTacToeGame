@@ -1,4 +1,3 @@
-let win = false;
 document.addEventListener("click", () => {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
@@ -45,6 +44,20 @@ function computerPlay() {
     const randomEmptyCell = emptyCells[randomIndex];
 
     randomEmptyCell.textContent = "O";
+
+    if (gameOver()) {
+      alert("Computer wins!");
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+      return;
+    } else if (checkDraw()) {
+      alert("Draw!");
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+      return;
+    }
   }
 }
 
@@ -103,5 +116,76 @@ function hasTreeInALine() {
     board[2][0].style.backgroundColor = "green";
     return true;
   }
+}
+function checkDraw() {
+  //check if draw
+  const cells = document.querySelectorAll(".cell");
+  const emptyCells = Array.from(cells).filter(
+    (cell) => cell.textContent === ""
+  );
+  if (emptyCells.length === 0) {
+    alert("Draw!");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+  }
+}
+function gameOver() {
+  const cells = document.querySelectorAll(".cell");
+  const board = [[], [], []];
+  cells.forEach((cell, index) => {
+    const rowIndex = Math.floor(index / 3);
+    const columnIndex = index % 3;
+    board[rowIndex][columnIndex] = cell;
+  });
+
+  for (let row = 0; row < 3; row++) {
+    if (
+      board[row][0].textContent === "O" &&
+      board[row][1].textContent === "O" &&
+      board[row][2].textContent === "O"
+    ) {
+      board[row][0].style.backgroundColor = "red";
+      board[row][1].style.backgroundColor = "red";
+      board[row][2].style.backgroundColor = "red";
+      return true;
+    }
+  }
+
+  for (let column = 0; column < 3; column++) {
+    if (
+      board[0][column].textContent === "O" &&
+      board[1][column].textContent === "O" &&
+      board[2][column].textContent === "O"
+    ) {
+      board[0][column].style.backgroundColor = "red";
+      board[1][column].style.backgroundColor = "red";
+      board[2][column].style.backgroundColor = "red";
+      return true;
+    }
+  }
+
+  if (
+    board[0][0].textContent === "O" &&
+    board[1][1].textContent === "O" &&
+    board[2][2].textContent === "O"
+  ) {
+    board[0][0].style.backgroundColor = "red";
+    board[1][1].style.backgroundColor = "red";
+    board[2][2].style.backgroundColor = "red";
+    return true;
+  }
+
+  if (
+    board[0][2].textContent === "O" &&
+    board[1][1].textContent === "O" &&
+    board[2][0].textContent === "O"
+  ) {
+    board[0][2].style.backgroundColor = "red";
+    board[1][1].style.backgroundColor = "red";
+    board[2][0].style.backgroundColor = "red";
+    return true;
+  }
+
   return false;
 }

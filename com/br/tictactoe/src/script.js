@@ -6,6 +6,18 @@ document.addEventListener("click", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleButton = document.getElementById("toggle-bg");
+
+  toggleButton.addEventListener("click", () => {
+    if (document.body.style.backgroundColor === "black") {
+      document.body.style.backgroundColor = "white";
+    } else {
+      document.body.style.backgroundColor = "black";
+    }
+  });
+});
+
 function handleCellClick(event) {
   const clickedCell = event.target;
 
